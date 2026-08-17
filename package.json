@@ -1,13 +1,27 @@
 {
-  "name": "riftcity",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "dev": "concurrently \"npm -C backend run dev\" \"npm -C frontend run dev\"",
-    "build": "npm -C backend run build && npm -C frontend run build"
+  "services": {
+    "frontend": {
+      "root": "frontend/",
+      "framework": "vite"
+    },
+    "backend": {
+      "root": "backend/",
+      "entrypoint": "src/server.ts",
+      "framework": "express"
+    }
   },
-  "devDependencies": {
-    "concurrently": "^8.2.0"
-  }
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": {
+        "service": "backend"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "frontend"
+      }
+    }
+  ]
 }
