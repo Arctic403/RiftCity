@@ -1,0 +1,13 @@
+{
+  "name": "riftcity",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm -C backend run dev\" \"npm -C frontend run dev\"",
+    "build": "npm -C backend run build && npm -C frontend run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
