@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  character Character?
+}
+
+model Character {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  name        String
+  level       Int      @default(1)
+  xp          Int      @default(0)
+  health      Int      @default(100)
+  energy      Int      @default(100)
+  cash        Int      @default(0)
+  bank        Int      @default(0)
+  locationId  String?
+  inventory   InventoryItem[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Location {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  difficulty  Int      @default(1)
+}
+
+model NPC {
+  id         String   @id @default(cuid())
+  name       String
+  role       String
+  locationId String?
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  xpReward    Int
+  cashReward  Int
+  minLevel    Int
+  locationId  String?
+}
+
+model InventoryItem {
+  id          String   @id @default(cuid())
+  characterId String
+  itemType    String
+  qty         Int      @default(1)
+  slot        String?
+  Character   Character @relation(fields: [characterId], references: [id])
+}
