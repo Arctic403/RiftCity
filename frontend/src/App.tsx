@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
+const API_URL = import.meta.env.PROD 
+  ? 'https://riftcity.vercel.app/api'
+  : 'http://localhost:3000/api';
+
 export default function App() {
   const [health, setHealth] = useState<string>('loading');
 
   useEffect(() => {
-    fetch('/api/health')
+    fetch(`${API_URL}/health`)
       .then((r) => r.json())
       .then((j) => setHealth(j.status))
       .catch(() => setHealth('offline'));
@@ -12,7 +16,7 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>
-      <h1>RiftCity V1 — Dashboard (Dev)</h1>
+      <h1>RiftCity V1 — Dashboard (Vercel + Supabase)</h1>
       <p>Server health: <strong>{health}</strong></p>
       <section style={{ marginTop: 20 }}>
         <h2>Quick dashboard</h2>
